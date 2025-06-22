@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/lucide@latest/dist/lu.css" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
+</head>
+<body 
+  class="relative min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat" 
+  style="background-image: url('{{ url_for('static', filename='background.jpg') }}');"
+>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      {% if category == 'success' and message == 'Login successful.' %}
+        <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div class="bg-white rounded-xl p-6 shadow-xl tick-animation flex flex-col items-center space-y-4">
+            <svg class="w-16 h-16 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <p class="text-lg font-semibold text-green-700">Successfully Logged In</p>
+          </div>
+        </div>
+        <script>
+          setTimeout(() => {
+            window.location.href = "{{ url_for('home') }}";
+          }, 1500);
+        </script>
+      {% endif %}
+    {% endfor %}
+  {% endwith %}
+
+  <!-- Logo Button -->
+  <div class="fixed top-4 left-4 z-50">
+    <button onclick="showLogoModal()">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="w-12 h-12 rounded-full shadow-lg" />
+    </button>
+  </div>
+
+  <!-- Logo Modal -->
+  <div id="logoModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center">
+    <div class="relative">
+      <button onclick="hideLogoModal()" class="absolute top-0 right-0 -mt-4 -mr-4 text-white text-3xl font-bold">&times;</button>
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Large Logo"
+           class="w-60 h-60 object-cover rounded-full shadow-2xl border-4 border-white" />
+    </div>
+  </div>
+
+  <!-- Login Form -->
+  <div id="page-transition" class="opacity-0 translate-y-5 transition-all duration-500">
+    <div class="absolute inset-0 bg-white/0"></div>
+    <div class="relative z-10 w-full max-w-md p-6">
+      <div class="bg-white/50 backdrop-blur-sm rounded-2xl shadow-xl border-0 p-8">
+        <div class="text-center space-y-1">
+          <h2 class="text-2xl font-bold">Welcome</h2>
+          <p class="text-gray-600">Sign in to your account to continue</p>
+        </div>
+
+        <form action="{{ url_for('login') }}" method="POST" class="space-y-6 mt-6" id="loginForm">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <div class="text-sm space-y-1 text-center mt-2">
+                {% for category, message in messages %}
+                  <p class="{{ 'text-green-600' if category == 'success' else 'text-red-500' }}">{{ message }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endwith %}
+
+          <div class="space-y-2">
+            <label for="email" class="text-sm font-medium text-gray-900 block">Email Address</label>
+            <div class="relative">
+              <i data-lucide="mail" class="absolute left-3 top-4 w-4 h-4 text-gray-400"></i>
+              <input id="email" name="email" type="email" required placeholder="Enter your email"
+                     class="pl-10 h-12 w-full rounded-md border border-gray-200 focus:border-blue-500 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label for="password" class="text-sm font-medium text-gray-900 block">Password</label>
+            <div class="relative">
+              <i data-lucide="lock" class="absolute left-3 top-4 w-4 h-4 text-gray-400"></i>
+              <input id="password" name="password" type="password" required placeholder="Enter your password"
+                     class="pl-10 pr-10 h-12 w-full rounded-md border border-gray-200 focus:border-blue-500 focus:ring-blue-500" />
+              <button type="button" onclick="togglePassword()"
+                      class="absolute right-3 top-3 h-4 w-4 text-gray-400 hover:text-gray-600">
+                <i id="toggleIcon" data-lucide="eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit"
+                  class="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-md">
+            Sign In
+          </button>
+        </form>
+
+        <div class="mt-6 text-center text-sm text-gray-600">
+          Don't have an account?
+          <a href="{{ url_for('register') }}" class="text-blue-600 hover:text-blue-700 font-medium">
+            Sign up here
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

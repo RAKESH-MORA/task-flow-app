@@ -1,0 +1,14 @@
+@keyframes popIn {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.tick-animation {
+  animation: popIn 0.4s ease-out forwards;
+}

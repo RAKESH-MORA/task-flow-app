@@ -1,0 +1,23 @@
+task-flow/
+├── app.py
+├── models.py
+├── forms.py
+├── config.py                  <-- (for environment config)
+├── requirements.txt
+├── README.md
+├── .gitignore
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── icons/
+├── templates/
+│   ├── layout.html
+│   ├── register.html
+│   ├── login.html
+│   ├── dashboard.html
+│   ├── change_password.html
+│   └── delete_account.html
+├── utils/
+│   ├── email_otp.py
+│   └── notification.py
+└── .env.example              <-- (for sharing environment variables safely)
